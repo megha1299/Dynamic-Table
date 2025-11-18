@@ -1,0 +1,46 @@
+<div class="overflow-auto border rounded-lg">
+  <table class="min-w-full border-collapse">
+    <thead class="bg-gray-100">
+      <tr>
+        @for (header of headers; track header) {
+        <th class="border px-4 py-2 text-left capitalize">
+          {{ header === 'id' ? 'ID' : header }}
+        </th>
+        }
+        <th class="border px-4 py-2">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (user of users; track user.id; let i = $index) {
+      <tr class="hover:bg-gray-50 cursor-pointer" (click)="getDetails(user)">
+        @for (header of headers; track header) {
+        <td class="border px-4 py-2">
+          @if (editingRow === i) {
+          <input [(ngModel)]="user[header]"
+          class="border p-1 w-full" (click)="$event.stopPropagation()"/>
+          } @else {
+          <span> {{ user[header] }} </span>
+          }
+        </td>
+        }
+
+        <td
+          class="border px-4 py-2 text-center"
+          (click)="$event.stopPropagation()"
+        >
+          @if (editingRow !== i) {
+          <button
+            class="text-blue-600 hover:text-blue-800 px-2 py-1 rounded"
+            (click)="isEditable(i, $event)">Edit</button>
+          } @else {
+          <button
+            class="text-green-600 hover:text-green-800 px-2 py-1 rounded"
+            (click)="save($event)">Save</button>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
